@@ -32,7 +32,7 @@ class Restaurants(Resource):
         id = params['id']
 
         rating = params['rating'] if 'rating' in params else None
-        if int(rating) > 4 or int(rating) < 0:
+        if rating and (int(rating) > 4 or int(rating) < 0):
             abort(400,"Rating can only be between 0 - 4")
 
         restaurant = Restaurant.query.get(id)
