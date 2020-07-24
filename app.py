@@ -73,6 +73,10 @@ def create_db():
 
             count = count + 1
 
+@app.route('/')
+def welcome():
+    return "Welcome"
+
 @app.route('/restaurants/all', methods=['GET'])
 def get_restaurants():
     all_restaurants = Restaurant.query.all()
@@ -83,4 +87,4 @@ def get_restaurants():
 if __name__ == '__main__':
     from api import *
     create_db()
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0')
