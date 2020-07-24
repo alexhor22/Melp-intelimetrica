@@ -14,6 +14,8 @@ class Restaurants(Resource):
         errors = restaurant_schema.validate(params)
         if errors:
             abort(400, str(errors))
+        if int(params['rating']) > 4 or int(params['rating'] < 0):
+            abort(400,"Rating can only be between 0 - 4")
 
         new_restaurant = Restaurant(params['id'], params['rating'],
                                     params['name'], params['site'],
@@ -28,9 +30,14 @@ class Restaurants(Resource):
     def put(self):
         params = request.args
         id = params['id']
+
+        rating = params['rating'] if 'rating' in params else None
+        if int(rating) > 4 or int(rating) < 0:
+            abort(400,"Rating can only be between 0 - 4")
+
         restaurant = Restaurant.query.get(id)
 
-        restaurant.rating = params['rating'] if 'rating' in params else restaurant.rating
+        restaurant.rating = rating if rating else restaurant.rating
         restaurant.name = params['name'] if 'name' in params else restaurant.name
         restaurant.site = params['site'] if 'site' in params else restaurant.site
         restaurant.email = params['email'] if 'email' in params else restaurant.email
