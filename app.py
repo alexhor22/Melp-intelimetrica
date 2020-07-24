@@ -1,8 +1,10 @@
 import os
 import csv
-from flask import Flask, Request, jsonify
+import math
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy 
 from flask_marshmallow import Marshmallow 
+from sqlalchemy.ext.hybrid import hybrid_method
 
 app = Flask(__name__) 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -73,12 +75,12 @@ def create_db():
 
 @app.route('/restaurants/all', methods=['GET'])
 def get_restaurants():
-  all_restaurants = Restaurant.query.all()
-  result = restaurants_schema.dump(all_restaurants)
-  print(len(result))
-  return jsonify(result)
+    all_restaurants = Restaurant.query.all()
+    result = restaurants_schema.dump(all_restaurants)
+    print(len(result))
+    return jsonify(result)
 
 if __name__ == '__main__':
     from api import *
     # create_db()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',debug=True)
